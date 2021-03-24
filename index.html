@@ -24,7 +24,9 @@
     <nav id="bottomNav">
     	<ul id="navList">
         	<!-- custom data attribute, allowing to pass custom data https://developer.mozilla.org/en/docs/Web/API/HTMLElement/dataset -->
-            <li><div class="sigilContainer stark" data-offset="0"></div></li>
+            <li>
+              <div class="sigilContainer stark" data-offset="0"></div>
+            </li>
             <li><div class="sigilContainer baratheon" data-offset="1"></div></li>
             <li><div class="sigilContainer lannister" data-offset="2"></div></li>
             <li><div class="sigilContainer tully" data-offset="3"></div></li>
@@ -36,7 +38,14 @@
     <h1>clever tagline goes here</h1><!-- replace this with the house name -->
 
     <p class="house-info"></p><!-- replace this with house details (github gist) -->
-</main>  <!--end mainContainer-->
+
+    <!-- lightbox goes here -->
+    <section class="lightbox" id="lightbox">
+      <a href="#" class="close">X</a>
+      <video src="video/House-Stark.mp4" controls></video>
+    </section>
+    <!-- end lightbox -->
+</main>
 
 <script src="js/main.js"></script>
 </body>
