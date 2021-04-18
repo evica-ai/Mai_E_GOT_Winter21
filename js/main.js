@@ -8,6 +8,13 @@
         vid = lightBox.querySelector('video'),
         houseName = document.querySelector('h1'),
         houseDescription = document.querySelector('.house-info');
+        // my addition for videos
+        progress = player.querySelector('.progress');
+        progressBar = player.querySelector('.progress_filled');
+        toggle = player.querySelector('.toggle');
+        skipButtons = player.querySelectorALl('.data-skip');
+        ranges = player.querySelectorAll('.player__slider');
+
 
   // adding house info using arrays -> this is what you would do for FIP as well
   const houseInfo = [
@@ -27,7 +34,14 @@
 
     House Greyjoy's sigil is traditionally a golden kraken on a black field. Their house words are "We Do Not Sow," although the phrase "What Is Dead May Never Die" is also closely associated with House Greyjoy and their bannermen, as they are associated with the faith of the Drowned God. `],
 
-    ['Arryn', `House Arryn of the Eyrie is one of the Great Houses of Westeros. It has ruled over the Vale of Arryn for millennia, originally as the Kings of Mountain and Vale and more recently as Lords Paramount of the Vale and Wardens of the East under the Targaryen kings and Baratheon-Lannister kings. The nominal head of House Arryn is Robin Arryn, the Lord of the Eyrie, with his stepfather Petyr Baelish acting as Lord Protector until he reaches the age of majority.`]
+    ['Arryn', `House Arryn of the Eyrie is one of the Great Houses of Westeros. It has ruled over the Vale of Arryn for millennia, originally as the Kings of Mountain and Vale and more recently as Lords Paramount of the Vale and Wardens of the East under the Targaryen kings and Baratheon-Lannister kings. The nominal head of House Arryn is Robin Arryn, the Lord of the Eyrie, with his stepfather Petyr Baelish acting as Lord Protector until he reaches the age of majority.`],
+
+    ['Targeryen', `House Targaryen of Dragonstone is a Great House of Westeros and was the ruling royal House of the Seven Kingdoms for three centuries since it conquered and unified the realm, before it was deposed during Robert's Rebellion and House Baratheon replaced it as the new royal House. The few surviving Targaryens fled into exile to the Free Cities of Essos across the Narrow Sea. Currently based on Dragonstone off of the eastern coast of Westeros, House Targaryen seeks to retake the Seven Kingdoms from House Lannister, who formally replaced House Baratheon as the royal House following the destruction of the Great Sept of Baelor.`],
+
+    ['Frey', `House Frey of the Twins was the Great House of the Riverlands, having gained their position for their treachery against their former liege lords, House Tully, who were stripped of all their lands and titles for their rebellion against the Iron Throne; House Tully had supported the independence movement for the Kingdom of the North. The current head of the house is unknown following the assassinations of Lord Walder Frey and two of his sons, Lothar Frey and Walder Rivers, by the vengeful Arya Stark. This is made more complex by the subsequent assassination of all the male Freys soon after.`],
+
+    ['Tyrell', `House Tyrell of Highgarden is an extinct Great House of Westeros. It ruled over the Reach, a vast, fertile, and heavily-populated region of southwestern Westeros, from their castle-seat of Highgarden as Lords Paramount of the Reach and Wardens of the South after taking control of the region from House Gardener during the Targaryen conquest. The House was formerly led by Lord Mace Tyrell. Mace's son Loras was a noted tournament knight and, secretly, the lover of Lord Renly Baratheon.`]
+
   ];
 
   function playVideo() {
@@ -39,6 +53,37 @@
     vid.currentTime = 0;
   }
 
+  function playPauseHandler() {
+
+      if (!video.paused == true) {
+          buttons[0].innerHTML = "PLAY";
+          video.pause()
+      } else {
+          buttons[0].innerHTML = "PAUSE";
+          video.play()
+      }
+  }
+
+  function volumeHandler() {
+      video.volume = this.value/100;
+   };
+
+  function muteUnmuteHandler() {
+
+        if (!video.muted) {
+          video.muted = true;
+          buttons[1].innerHTML = "UNMUTE";
+        } else {
+          video.muted = false;
+          buttons[1].innerHTML = "MUTE";
+        }
+    }
+
+  function resetHandler() {
+      video.currentTime = 0;
+  }
+
+// -----------------------------------------------------------------------------------------
   function setHouseData(name, desc) {
     houseName.textContent = `House ${name}`;
     houseDescription.textContent = desc;
@@ -53,19 +98,20 @@
     playVideo();
   }
 
-  function animateBanner(event) {
-    if (event.target.className.includes('sigilContainer')) {
-      let multiplier = event.target.dataset.offset,
-          offsetWidth = 600;
-      // 0, 600, 1200, 1800px depending on the math
-      banner.style.right = `${multiplier * offsetWidth}px`;
-    }
+// banner ----------------------------------------------------------------------
+function animateBanner(event) {
+  if (event.target.className.includes('sigilContainer')) {
+    let multiplier = event.target.dataset.offset,
+        offsetWidth = 600;
+    // 0, 600, 1200, 1800px depending on the math
+    banner.style.right = ${multiplier * offsetWidth}px;
   }
+}
 
-  function popLightBox(event) {
-    // add a class to open the lightBox, use event delegation so we only need one event listener
-    if (event.target.className.includes('sigilContainer')) {
-      lightBox.classList.add('show-lightbox');
+function popLightBox(event) {
+  // add a class to open the lightBox
+  if (event.target.className.includes('sigilContainer')) {
+    lightBox.classList.add('show-lightbox');
 
       let targetHouse = event.target.className.split(" ")[1]; //"baratheon", "stark", "tully" etc
       setVideoSource(targetHouse);
@@ -73,14 +119,26 @@
       // this might not be the best spot for this function invocation
       // set the house data by running the setHouseData function and passing data into it
       setHouseData(houseInfo[event.target.dataset.offset][0], houseInfo[event.target.dataset.offset][1]);
+      // delays lightbox to show banner animation
+      setTimeout(function(){lightbox.classList.add('show-lightbox')}, 3000);
 
       lightBox.querySelector('.close').addEventListener('click', () => {
         stopVideo();
         lightBox.classList.remove('show-lightbox');
+
+        var trailer = document.getElementById("myVideo");
+        trailer.onended = function() {
+        lightbox.classList.remove('show-lightbox')
+      };
       })
     }
   }
 
   sigils.addEventListener('click', animateBanner);
   sigils.addEventListener('click', popLightBox);
+
+  // audio controls
+  controlButtons[0].addEventListener("click",playVideo);
+  controlButtons[1].addEventListener("click",stopVideo);
+  controlButtons[2].addEventListener("click",rewindTrack);
 })();
