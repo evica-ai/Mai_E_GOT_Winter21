@@ -20,7 +20,7 @@
         <img src="images/targaryen.jpg"/>
     		<img src="images/frey.jpg"/>
     		<img src="images/tyrell.jpg"/>
-        </div>
+      </div>
     </section>
 
     <nav id="bottomNav">
@@ -43,12 +43,13 @@
     <h1>House &nbsp; Stark</h1><!-- replace this with the house name -->
 
     <p class="house-info"></p><!-- replace this with house details (github gist) -->
-
     <!-- lightbox goes here -->
     <section class="lightbox">
       <a href="#" class="close">X</a>
-      <video src="video/House-Stark.mp4" controls></video>
-      <section class="player_controls">
+      <video id="myVideo" src="video/House-Stark.mp4" controls></video>
+
+      <!-- adding the video buttons -->
+      <div class="player_controls">
         <div class="progress">
           <div class="progress_filled"></div>
         </div>
@@ -57,7 +58,7 @@
         <input type="range" name="playbackRate" class="player_slider" min="0.5" max="2" step="0.1" value="1">
         <button data-skipe="-10" class="player_button"><< 10s</button>
         <button data-skip="25" class="plyer_button">25s>></button>
-      </section>
+      </div>
     </section>
     <!-- end lightbox -->
 </main>
